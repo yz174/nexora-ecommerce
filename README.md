@@ -1012,11 +1012,4 @@ rm server/database.sqlite
 # Restart the server (database will be recreated)
 npm run dev:server
 ```
-<img width="2557" height="1267" alt="Screenshot 2025-10-28 194126" src="https://github.com/user-attachments/assets/9c06920d-aeaf-49bd-a4ee-9812ee02aca0" />
-<img width="2554" height="1261" alt="Screenshot 2025-10-28 194111" src="https://github.com/user-attachments/assets/df646012-08e5-4d98-99c1-4fcf96507d86" />
-<img width="2551" height="1266" alt="Screenshot 2025-10-28 194104" src="https://github.com/user-attachments/assets/9dbe0103-4dbd-443a-8984-f4779ecf8a20" />
-<img width="2557" height="1264" alt="Screenshot 2025-10-28 194057" src="https://github.com/user-attachments/assets/60862a27-ff4f-43ab-b35b-08ce8e6431b3" />
-<img width="2557" height="1270" alt="Screenshot 2025-10-28 194046" src="https://github.com/user-attachments/assets/b49bbb47-b93a-43b0-b26f-99d6e110ea3a" />
-<img width="2555" height="1266" alt="Screenshot 2025-10-28 194033" src="https://github.com/user-attachments/assets/fc706446-f999-4068-83fd-d66076ba0e35" />
-
 
