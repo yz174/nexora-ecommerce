@@ -504,36 +504,6 @@ Process checkout and generate a mock receipt.
 }
 ```
 
-## Design System - Stone Island Aesthetic
-
-The application implements a minimalist design inspired by Stone Island's e-commerce platform, emphasizing clean lines, monochromatic colors, and functional simplicity.
-
-### Design Principles
-
-1. **Minimalism**: Remove unnecessary visual elements; focus on content and functionality
-2. **Monochromatic Palette**: Black, white, and shades of gray create a sophisticated, timeless look
-3. **Typography-First**: Clear, readable text with Helvetica Neue as the primary typeface
-4. **Grid-Based Layouts**: Structured, organized product displays using CSS Grid
-5. **Responsive by Default**: Mobile-first approach with seamless scaling to larger screens
-
-
-### Typography
-
-- **Primary Font**: Helvetica Neue, Arial, sans-serif
-- **Monospace Font**: Courier New (for order IDs and technical data)
-- **Font Sizes**: 0.75rem to 2rem with consistent scale
-- **Font Weights**: 400 (normal), 500 (medium), 700 (bold)
-
-### Layout & Spacing
-
-- **Maximum Content Width**: 1400px
-- **Grid Columns**:
-  - Mobile (< 768px): 1 column
-  - Tablet (768px - 1024px): 3 columns
-  - Desktop (> 1024px): 4 columns
-- **Grid Gap**: 1.5rem (24px)
-- **Spacing Scale**: 0.25rem, 0.5rem, 1rem, 1.5rem, 2rem, 3rem
-
 ### Responsive Breakpoints
 
 ```css
