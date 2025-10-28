@@ -1,4 +1,4 @@
-# Vibe Commerce Cart
+# Nexora fashion
 
 A full-stack shopping cart application built with React, Express, and SQLite, featuring the minimalist Stone Island design aesthetic. This application demonstrates modern e-commerce functionality with product browsing, cart management, and checkout workflows.
 
@@ -620,70 +620,4 @@ Products are fetched from the **Fake Store API** (fakestoreapi.com):
 - Suitable for development and small-scale deployments
 - For production at scale, consider PostgreSQL or MySQL
 
-## Troubleshooting
 
-### Port Already in Use
-
-If you see an error like `EADDRINUSE: address already in use :::5000`:
-
-```bash
-# Find and kill the process using port 5000 (backend)
-# Windows:
-netstat -ano | findstr :5000
-taskkill /PID <PID> /F
-
-# macOS/Linux:
-lsof -ti:5000 | xargs kill -9
-
-# Or change the port in server/.env
-PORT=5001
-```
-
-### Database Locked Error
-
-If you encounter SQLite database locked errors:
-
-```bash
-# Stop all running servers
-# Delete the database file
-rm server/database.sqlite
-
-# Restart the server (database will be recreated)
-npm run dev:server
-```
-
-### CORS Errors
-
-If you see CORS errors in the browser console:
-
-- Ensure the backend server is running on port 5000
-- Check that `client/vite.config.js` has the correct proxy configuration
-- Verify CORS is enabled in `server/server.js`
-
-### Products Not Loading
-
-If products fail to load:
-
-- Check your internet connection (Fake Store API requires internet)
-- The application will automatically fall back to mock data if the API is unavailable
-- Check the browser console and server logs for error messages
-
-## Contributing
-
-Contributions are welcome! Please follow these guidelines:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Acknowledgments
-
-- Product data provided by [Fake Store API](https://fakestoreapi.com/)
-- Design inspiration from [Stone Island](https://www.stoneisland.com/)
-- Built with [React](https://react.dev/), [Express](https://expressjs.com/), and [Vite](https://vitejs.dev/)
