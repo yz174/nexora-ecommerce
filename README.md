@@ -1,6 +1,6 @@
-# Nexora fashion
+# Nexora Fashion
 
-A full-stack shopping cart application built with React, Express, and SQLite, featuring the minimalist Stone Island design aesthetic. This application demonstrates modern e-commerce functionality with product browsing, cart management, and checkout workflows.
+A full-stack shopping cart application built with React, Express, and SQLite, featuring the minimalist design aesthetic. This application demonstrates modern e-commerce functionality with product browsing, cart management, and checkout workflows.
 
 ## Features
 
@@ -17,6 +17,7 @@ A full-stack shopping cart application built with React, Express, and SQLite, fe
 ## Tech Stack
 
 **Frontend:**
+
 - React 18+ with functional components and hooks
 - Vite for fast development and optimized builds
 - React Router v6 for client-side routing
@@ -25,6 +26,7 @@ A full-stack shopping cart application built with React, Express, and SQLite, fe
 - Responsive CSS Grid and Flexbox layouts
 
 **Backend:**
+
 - Node.js 18+ with Express framework
 - SQLite database with better-sqlite3 driver
 - CORS middleware for cross-origin requests
@@ -32,6 +34,7 @@ A full-stack shopping cart application built with React, Express, and SQLite, fe
 - Express JSON middleware for request parsing
 
 **External APIs:**
+
 - Fake Store API (fakestoreapi.com) for product data with fallback to mock data
 
 ## Architecture
@@ -403,6 +406,7 @@ Add a new item to the cart or update quantity if the product already exists.
 Remove a specific item from the cart.
 
 **URL Parameters:**
+
 - `id` - Cart item ID (integer)
 
 **Response:** `200 OK`
@@ -512,20 +516,6 @@ The application implements a minimalist design inspired by Stone Island's e-comm
 4. **Grid-Based Layouts**: Structured, organized product displays using CSS Grid
 5. **Responsive by Default**: Mobile-first approach with seamless scaling to larger screens
 
-### Color Palette
-
-```css
---color-primary: #000000        /* Black - primary text and borders */
---color-secondary: #ffffff      /* White - backgrounds */
---color-accent: #1a1a1a         /* Dark gray - hover states */
---color-text: #000000           /* Black - body text */
---color-text-light: #666666     /* Gray - secondary text */
---color-border: #e0e0e0         /* Light gray - dividers */
---color-background: #ffffff     /* White - main background */
---color-background-alt: #f5f5f5 /* Off-white - alternate sections */
---color-error: #d32f2f          /* Red - error messages */
---color-success: #388e3c        /* Green - success messages */
-```
 
 ### Typography
 
@@ -537,7 +527,7 @@ The application implements a minimalist design inspired by Stone Island's e-comm
 ### Layout & Spacing
 
 - **Maximum Content Width**: 1400px
-- **Grid Columns**: 
+- **Grid Columns**:
   - Mobile (< 768px): 1 column
   - Tablet (768px - 1024px): 3 columns
   - Desktop (> 1024px): 4 columns
@@ -549,10 +539,14 @@ The application implements a minimalist design inspired by Stone Island's e-comm
 ```css
 /* Mobile: Default styles */
 /* Tablet: 768px and up */
-@media (min-width: 768px) { ... }
+@media (min-width: 768px) {
+  ...;
+}
 
 /* Desktop: 1024px and up */
-@media (min-width: 1024px) { ... }
+@media (min-width: 1024px) {
+  ...;
+}
 ```
 
 ### Component Styling
@@ -565,20 +559,24 @@ The application implements a minimalist design inspired by Stone Island's e-comm
 ## Screenshots
 
 ### Product Grid View
+
 ![Product Grid](docs/screenshots/product-grid.png)
-*Browse products in a responsive grid layout with Stone Island aesthetic*
+_Browse products in a responsive grid layout with Stone Island aesthetic_
 
 ### Shopping Cart
+
 ![Shopping Cart](docs/screenshots/cart.png)
-*Manage cart items with quantity controls and real-time total calculation*
+_Manage cart items with quantity controls and real-time total calculation_
 
 ### Checkout Process
+
 ![Checkout](docs/screenshots/checkout.png)
-*Complete purchase with customer information form*
+_Complete purchase with customer information form_
 
 ### Order Receipt
+
 ![Receipt Modal](docs/screenshots/receipt.png)
-*View order confirmation with order ID and timestamp*
+_View order confirmation with order ID and timestamp_
 
 **Note:** Screenshots are placeholders. To add actual screenshots, capture images of the running application and place them in a `docs/screenshots/` directory.
 
@@ -620,4 +618,427 @@ Products are fetched from the **Fake Store API** (fakestoreapi.com):
 - Suitable for development and small-scale deployments
 - For production at scale, consider PostgreSQL or MySQL
 
+## Code Examples
 
+### Frontend Examples
+
+#### Adding a Product to Cart
+
+```javascript
+// client/src/services/api.js
+import axios from "axios";
+
+const API_BASE_URL = "/api";
+
+export const addToCart = async (productId, quantity = 1) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/cart`, {
+      productId,
+      quantity,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    throw error;
+  }
+};
+```
+
+#### Using the Cart in a Component
+
+```javascript
+// client/src/components/ProductCard.jsx
+import { useState } from "react";
+import { addToCart } from "../services/api";
+
+function ProductCard({ product, onCartUpdate }) {
+  const [isAdding, setIsAdding] = useState(false);
+
+  const handleAddToCart = async (e) => {
+    e.stopPropagation();
+    setIsAdding(true);
+
+    try {
+      await addToCart(product.id, 1);
+      onCartUpdate(); // Refresh cart count
+      showNotification("Added to cart!", "success");
+    } catch (error) {
+      showNotification("Failed to add to cart", "error");
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
+  return (
+    <div className="product-card">
+      <img src={product.image} alt={product.name} />
+      <h3>{product.name}</h3>
+      <p>${product.price}</p>
+      <button onClick={handleAddToCart} disabled={isAdding}>
+        {isAdding ? "Adding..." : "Add to Cart"}
+      </button>
+    </div>
+  );
+}
+```
+
+#### Theme Toggle Implementation
+
+```javascript
+// client/src/App.jsx
+import { useState, useEffect } from "react";
+
+function App() {
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const saved = localStorage.getItem("darkMode");
+    return saved ? JSON.parse(saved) : false;
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      "data-theme",
+      isDarkMode ? "dark" : "light"
+    );
+    localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  return (
+    <div className="App">
+      <button onClick={toggleDarkMode}>
+        {isDarkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+      </button>
+      {/* Rest of app */}
+    </div>
+  );
+}
+```
+
+### Backend Examples
+
+#### Creating a Cart Route
+
+```javascript
+// server/routes/cart.js
+const express = require("express");
+const router = express.Router();
+const CartItem = require("../models/CartItem");
+
+// Get all cart items
+router.get("/", async (req, res) => {
+  try {
+    const userId = "mock-user-001";
+    const items = CartItem.getByUserId(userId);
+
+    const total = items.reduce((sum, item) => {
+      return sum + item.price * item.quantity;
+    }, 0);
+
+    res.json({ items, total });
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+    res.status(500).json({ error: "Failed to retrieve cart items" });
+  }
+});
+
+// Add item to cart
+router.post("/", async (req, res) => {
+  try {
+    const { productId, quantity } = req.body;
+
+    if (!productId || !quantity || quantity < 1) {
+      return res.status(400).json({
+        error: "Invalid productId or quantity",
+      });
+    }
+
+    const userId = "mock-user-001";
+    const cartItem = CartItem.addOrUpdate(userId, productId, quantity);
+
+    res.status(201).json({ cartItem });
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    res.status(500).json({ error: "Failed to add item to cart" });
+  }
+});
+
+module.exports = router;
+```
+
+#### Database Model with SQLite
+
+```javascript
+// server/models/CartItem.js
+const db = require("../config/database");
+
+class CartItem {
+  // Create the cart_items table
+  static createTable() {
+    const sql = `
+      CREATE TABLE IF NOT EXISTS cart_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id TEXT NOT NULL DEFAULT 'mock-user-001',
+        product_id TEXT NOT NULL,
+        name TEXT NOT NULL,
+        price REAL NOT NULL,
+        quantity INTEGER NOT NULL CHECK(quantity > 0),
+        image TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(user_id, product_id)
+      )
+    `;
+    db.prepare(sql).run();
+  }
+
+  // Get all cart items for a user
+  static getByUserId(userId) {
+    const sql = `
+      SELECT * FROM cart_items 
+      WHERE user_id = ? 
+      ORDER BY created_at DESC
+    `;
+    return db.prepare(sql).all(userId);
+  }
+
+  // Add or update cart item
+  static addOrUpdate(userId, productId, quantity, productData) {
+    const existing = db
+      .prepare("SELECT * FROM cart_items WHERE user_id = ? AND product_id = ?")
+      .get(userId, productId);
+
+    if (existing) {
+      // Update quantity
+      const sql = `
+        UPDATE cart_items 
+        SET quantity = quantity + ? 
+        WHERE user_id = ? AND product_id = ?
+      `;
+      db.prepare(sql).run(quantity, userId, productId);
+    } else {
+      // Insert new item
+      const sql = `
+        INSERT INTO cart_items (user_id, product_id, name, price, quantity, image)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `;
+      db.prepare(sql).run(
+        userId,
+        productId,
+        productData.name,
+        productData.price,
+        quantity,
+        productData.image
+      );
+    }
+
+    return this.getByProductId(userId, productId);
+  }
+
+  // Delete cart item
+  static delete(id) {
+    const sql = "DELETE FROM cart_items WHERE id = ?";
+    const result = db.prepare(sql).run(id);
+    return result.changes > 0;
+  }
+}
+
+module.exports = CartItem;
+```
+
+#### Express Server Setup
+
+```javascript
+// server/server.js
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+
+const productsRouter = require("./routes/products");
+const cartRouter = require("./routes/cart");
+const checkoutRouter = require("./routes/checkout");
+const CartItem = require("./models/CartItem");
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Initialize database
+CartItem.createTable();
+
+// Routes
+app.use("/api/products", productsRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/checkout", checkoutRouter);
+
+// Health check
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    error: "Something went wrong!",
+    message: process.env.NODE_ENV === "development" ? err.message : undefined,
+  });
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
+});
+```
+
+### CSS Examples
+
+#### Responsive Product Grid
+
+```css
+/* client/src/components/ProductGrid.css */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+}
+
+/* Desktop: 4 columns */
+@media (min-width: 1025px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet: 3 columns */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+  }
+}
+
+/* Mobile: 2 columns */
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+  }
+}
+```
+
+
+
+### Testing Examples
+
+#### Testing API Endpoints with cURL
+
+```bash
+# Get all products
+curl http://localhost:5000/api/products
+
+# Get cart items
+curl http://localhost:5000/api/cart
+
+# Add item to cart
+curl -X POST http://localhost:5000/api/cart \
+  -H "Content-Type: application/json" \
+  -d '{"productId": "1", "quantity": 2}'
+
+# Delete cart item
+curl -X DELETE http://localhost:5000/api/cart/1
+
+# Process checkout
+curl -X POST http://localhost:5000/api/checkout \
+  -H "Content-Type: application/json" \
+  -d '{
+    "cartItems": [{"id": "1", "name": "Product", "price": 29.99, "quantity": 2}],
+    "name": "John Doe",
+    "email": "john@example.com"
+  }'
+```
+
+#### Testing with Postman
+
+Import this collection to test all endpoints:
+
+```json
+{
+  "info": {
+    "name": "Nexora Fashion API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Products",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/api/products"
+      }
+    },
+    {
+      "name": "Get Cart",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:5000/api/cart"
+      }
+    },
+    {
+      "name": "Add to Cart",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:5000/api/cart",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"productId\": \"1\", \"quantity\": 2}"
+        }
+      }
+    }
+  ]
+}
+```
+
+## Troubleshooting
+
+### Port Already in Use
+
+If you see an error like `EADDRINUSE: address already in use :::5000`:
+
+```bash
+# Find and kill the process using port 5000 (backend)
+# Windows:
+netstat -ano | findstr :5000
+taskkill /PID <PID> /F
+
+# macOS/Linux:
+lsof -ti:5000 | xargs kill -9
+
+# Or change the port in server/.env
+PORT=5001
+```
+
+### Database Locked Error
+
+If you encounter SQLite database locked errors:
+
+```bash
+# Stop all running servers
+# Delete the database file
+rm server/database.sqlite
+
+# Restart the server (database will be recreated)
+npm run dev:server
+```
