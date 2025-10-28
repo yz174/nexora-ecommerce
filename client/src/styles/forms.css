@@ -1,0 +1,56 @@
+/* Form Styles - Stone Island Aesthetic */
+
+.form-group {
+  margin-bottom: var(--spacing-lg);
+  text-align: left;
+}
+
+.form-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text);
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  border: 2px solid var(--color-border);
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.form-input.error {
+  border-color: var(--color-error);
+}
+
+.form-error {
+  display: block;
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+}
+
+.form-input[type="number"] {
+  width: 80px;
+  text-align: center;
+}
+
+/* Touch-friendly on mobile */
+@media (max-width: 768px) {
+  .form-input {
+    min-height: 44px;
+    font-size: var(--font-size-base);
+  }
+}
